@@ -2,7 +2,7 @@
 **Update 2025/2/4:** Fixed Search module. 修复了search的api兼容问题
 
 # Introduction
-Keypatch plugin for ida9.0 from [@y0ush4](https://github.com/y0ush4)'s [Issue(original file here)](https://github.com/keystone-engine/keypatch/issues/94)
+Keypatch plugin for ida9.0 from [@y0ush4](https://github.com/y0ush4)'s [Issue(original file here)](https://github.com/keystone-engine/keypatch/issues/94), fixed by Zj_W1nd.
 
 For Windows Users like me, if keystone-engine is installed properly in your python env, just put this file in the folder of ida9.0 and it will work.
 
