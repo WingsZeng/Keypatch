@@ -1,7 +1,23 @@
+# -*- coding: utf-8 -*-
 
+# Keypatch IDA Plugin, powered by Keystone Engine (http://www.keystone-engine.org).
+# By Nguyen Anh Quynh & Thanh Nguyen, 2018.
 
-# CODE CHANGED TO WORK WITH IDA 9.0 by y0ush4@gmail.com
+# Keypatch is released under the GPL v2. See COPYING for more information.
+# Find docs & latest version at http://keystone-engine.org/keypatch
 
+# This IDA plugin includes 3 tools inside: Patcher, Fill Range & Search.
+# Access to these tools via menu "Edit | Keypatch", or via right-click popup menu "Keypatch".
+
+# Hotkey Ctrl-Alt-K opens either Patcher or "Fill Range" window, depending on context.
+#  - If there is no code selection, hotkey opens Patcher dialog
+#  - If a range of code is selected, hotkey opens "Fill Range" dialog
+
+# To revert (undo) the last patching, choose menu "Edit | Keypatch | Undo last patching".
+# To check for update version, choose menu "Edit | Keypatch | Check for update".
+
+# Thanks: y0ush4@gmail.com
+# Fixed By zj_w1nd@qq.com
 '''
     Do not use shortcut(Ctrk + Alt + K) for debugging, otherwise debugging features will not be available.
 '''
@@ -45,6 +61,7 @@ import six
 ################################ IDA 6/7 Compatibility import ###########################################
 if idaapi.IDA_SDK_VERSION >= 700:
     import ida_search
+    import ida_bytes
     from idc import (
         get_operand_type,
         print_operand,
@@ -246,7 +263,6 @@ def get_name_value(_from, name):
     if typ == idaapi.NT_BYTE:  # typ is byte name (regular name)
         value = idaapi.get_name_ea(_from, name)
     return (typ, value)
-
 
 ## Main Keypatch class
 class Keypatch_Asm:
@@ -1373,6 +1389,9 @@ KEYPATCH:: Search
 
     ################################ IDA 6/7 Compatibility method #######################################
     def find_binary(self, ea):
+        if idaapi.IDA_SDK_VERSION >= 900:
+        # for ida 9.0sp1 we use this new api:
+            return ida_bytes.find_bytes(self.GetControlValue(self.c_encoding), ea)
         if idaapi.IDA_SDK_VERSION >= 700:
             return ida_search.find_binary(ea, idaapi.cvar.inf.max_ea, self.GetControlValue(self.c_encoding), 16, idc.SEARCH_DOWN)
         return idc.FindBinary(ea, idc.SEARCH_DOWN, self.GetControlValue(self.c_encoding))
