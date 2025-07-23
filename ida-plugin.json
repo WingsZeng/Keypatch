@@ -1,0 +1,8 @@
+{
+    "IDAMetadataDescriptorVersion": 1,
+    "plugin" :
+    {
+      "name" : "Keypatch",
+      "entryPoint" : "keypatch9.0.py"
+    }
+  }
